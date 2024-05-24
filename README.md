@@ -1,45 +1,62 @@
-# Simple Web Application
+https://hub.docker.com/r/kusalthiwanka/simple-webapp-flask
 
-This is a simple web application using [Python Flask](http://flask.pocoo.org/).
-  
-  Below are the steps required to get this working on a base linux system.
-  
-  - **Install all required dependencies**
-  - **Install and Configure Web Server**
-  - **Start Web Server**
-   
-## 1. Install all required dependencies
-  
-  Python and its dependencies
-  ```bash
-  apt-get install -y python3 python3-setuptools python3-dev build-essential python3-pip default-libmysqlclient-dev
-  ```
-If you are running your code on a macOS you can simply run the following code:
-```bash
-python3 -m venv env && source env/bin/activate&& pip install flask
+https://github.com/KusalThiwanka/CAA-CLO835-Lab1
+
+
+# Setting up and deploying a simple Flask web application in a Docker container.
+
+Prerequisites
+~ Git
+~ Python and pip
+~ Flask
+~ Docker
+
+1. Clone the Repository
+First, clone the project repository to your local machine.
 ```
-   
-## 2. Install and Configure Web Server
-
-Install Python Flask dependency
-```bash
-pip3 install flask
+git clone https://github.com/sojoudian/simple-webapp-flask.git
+cd simple-webapp-flask
 ```
 
-- Copy `app.py` or download it from a source repository
-- Configure database credentials and parameters 
-
-## 3. Start Web Server
-
-Start web server
-```bash
-FLASK_APP=app.py flask run --host=0.0.0.0
+2. Run the Python Application Locally
+Set up a Python virtual environment and activate it:
+```
+python -m venv venv
+.\venv\Scripts\activate
 ```
 
-## 4. Test
+Install the required dependencies:
+```
+pip install -r requirements.txt
+```
 
-Open a browser and go to URL
+Run the Flask application:
 ```
-http://<IP>:5000                            => Welcome
-http://<IP>:5000/how%20are%20you            => I am good, how about you?
+flask run
 ```
+
+3. Create the Dockerfile
+Create a Dockerfile in your project's root directory with the following content:
+```
+FROM python:3.11.5
+WORKDIR /app
+COPY . /app
+RUN pip install --no-cache-dir flask
+EXPOSE 8080
+ENV NAME World
+CMD ["python", "app.py"]
+```
+
+4. Build the Docker Image
+Navigate to your project directory and build the Docker image:
+```
+docker build -t simple-webapp-flask .
+```
+
+5. Run Your Application in a Docker Container
+Run your Docker container:
+```
+docker run -p 4000:8080 simple-webapp-flask
+```
+
+Access your application at http://127.0.0.1:4000
